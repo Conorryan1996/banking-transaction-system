@@ -1,0 +1,60 @@
+  version: '3.8'
+
+  services:
+    account-service:
+      build:
+        context: ./account-service
+        dockerfile: Dockerfile
+      container_name: account-service
+      ports:
+        - "5000:5000"
+      depends_on:
+        postgres-accounts:
+          condition: service_healthy
+      environment:
+        - SPRING_PROFILES_ACTIVE=docker
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-accounts:5432/accounts_db
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=password
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+        - SPRING_SQL_INIT_MODE=always
+      networks:
+        - banking-network
+      restart: unless-stopped
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:5000/accounts"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+        start_period: 60s
+
+    postgres-accounts:
+      image: postgres:15-alpine
+      container_name: postgres-accounts
+      environment:
+        POSTGRES_DB: accounts_db
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: password
+        POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_accounts_data:/var/lib/postgresql/data
+        - ./init-db:/docker-entrypoint-initdb.d
+      networks:
+        - banking-network
+      restart: unless-stopped
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U postgres -d accounts_db"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+        start_period: 30s
+
+  volumes:
+    postgres_accounts_data:
+      driver: local
+
+  networks:
+    banking-network:
+      driver: bridge
