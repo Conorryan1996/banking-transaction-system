@@ -1,5 +1,29 @@
-### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=IntelliJ IDEA
+### Get all accounts (should return sample data)
+GET http://localhost:5000/accounts
+Accept: application/json
+
+###
+
+### Get specific account by ID (using sample data ID)
+GET http://localhost:5000/accounts/11111111-1111-1111-1111-111111111111
+Accept: application/json
+
+###
+
+### Get account balance
+GET http://localhost:5000/accounts/11111111-1111-1111-1111-111111111111/balance
+Accept: application/json
+
+###
+
+### Get accounts by customer ID (should return multiple accounts)
+GET http://localhost:5000/accounts/customer/22222222-2222-2222-2222-222222222222
+Accept: application/json
+
+###
+
+### Try to get non-existent account (should return 400 error)
+GET http://localhost:5000/accounts/99999999-9999-9999-9999-999999999999
+Accept: application/json
 
 ###

@@ -1,0 +1,90 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.pm.grpc.customer";
+package customer;
+
+import "common.proto";
+
+service CustomerService {
+  rpc CreateCustomer (CreateCustomerRequest) returns (CreateCustomerResponse);
+  rpc GetCustomer (GetCustomerRequest) returns (GetCustomerResponse);
+  rpc UpdateCustomer (UpdateCustomerRequest) returns (UpdateCustomerResponse);
+  rpc ValidateCustomer (ValidateCustomerRequest) returns (ValidateCustomerResponse);
+}
+
+message CreateCustomerRequest {
+  string first_name = 1;
+  string last_name = 2;
+  string email = 3;
+  string phone = 4;
+  string date_of_birth = 5; // ISO date string
+
+  // Optional default account creation
+  bool create_default_account = 6;
+  common.AccountType default_account_type = 7;
+  string initial_deposit = 8;
+}
+
+message CreateCustomerResponse {
+  string customer_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  common.CustomerStatus status = 5;
+  string created_date = 6;
+
+  // Optional default account info
+  DefaultAccountInfo default_account = 7;
+  common.ServiceResponse service_response = 8;
+}
+
+message DefaultAccountInfo {
+  string account_id = 1;
+  string account_number = 2;
+  common.AccountType account_type = 3;
+  string balance = 4;
+}
+
+message GetCustomerRequest {
+  string customer_id = 1;
+}
+
+message GetCustomerResponse {
+  string customer_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  string phone = 5;
+  common.CustomerStatus status = 6;
+  string created_date = 7;
+  common.ServiceResponse service_response = 8;
+}
+
+message UpdateCustomerRequest {
+  string customer_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  string phone = 5;
+}
+
+message UpdateCustomerResponse {
+  string customer_id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  string phone = 5;
+  string last_modified_date = 6;
+  common.ServiceResponse service_response = 7;
+}
+
+message ValidateCustomerRequest {
+  string customer_id = 1;
+}
+
+message ValidateCustomerResponse {
+  bool exists = 1;
+  string full_name = 2;
+  common.CustomerStatus status = 3;
+  common.ServiceResponse service_response = 4;
+}

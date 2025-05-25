@@ -1,5 +1,73 @@
-### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=IntelliJ IDEA
+###
+
+// FILE: api-requests/account-service/create-account.http
+
+### Create a new checking account
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "customerId": "33333333-3333-3333-3333-333333333333",
+  "accountType": "CHECKING",
+  "initialDeposit": 1000.00
+}
+
+###
+
+### Create a new savings account
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "customerId": "33333333-3333-3333-3333-333333333333",
+  "accountType": "SAVINGS",
+  "initialDeposit": 5000.00
+}
+
+###
+
+### Create a business checking account
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "customerId": "44444444-4444-4444-4444-444444444444",
+  "accountType": "BUSINESS_CHECKING",
+  "initialDeposit": 10000.00
+}
+
+###
+
+### Create a business savings account
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "customerId": "44444444-4444-4444-4444-444444444444",
+  "accountType": "BUSINESS_SAVINGS",
+  "initialDeposit": 25000.00
+}
+
+###
+
+### Try to create account with invalid data (should fail validation)
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "customerId": null,
+  "accountType": "CHECKING",
+  "initialDeposit": -100.00
+}
+
+###
+
+### Try to create account with missing required fields
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "customerId": "55555555-5555-5555-5555-555555555555"
+}
 
 ###
