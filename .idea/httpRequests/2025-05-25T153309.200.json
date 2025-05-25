@@ -1,0 +1,56 @@
+[
+  {
+    "id": "11111111-1111-1111-1111-111111111112",
+    "accountNumber": "ACC1000002",
+    "customerId": "22222222-2222-2222-2222-222222222222",
+    "accountType": "SAVINGS",
+    "balance": "15000.00",
+    "status": "ACTIVE",
+    "createdDate": "2025-04-29T21:19:17.171168"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111113",
+    "accountNumber": "ACC1000003",
+    "customerId": "22222222-2222-2222-2222-222222222223",
+    "accountType": "BUSINESS_CHECKING",
+    "balance": "25000.00",
+    "status": "ACTIVE",
+    "createdDate": "2025-05-04T21:19:17.182152"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111114",
+    "accountNumber": "ACC1000004",
+    "customerId": "22222222-2222-2222-2222-222222222223",
+    "accountType": "BUSINESS_SAVINGS",
+    "balance": "50000.00",
+    "status": "ACTIVE",
+    "createdDate": "2025-05-09T21:19:17.195110"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111115",
+    "accountNumber": "ACC1000005",
+    "customerId": "22222222-2222-2222-2222-222222222224",
+    "accountType": "CHECKING",
+    "balance": "750.50",
+    "status": "ACTIVE",
+    "createdDate": "2025-05-14T21:19:17.201600"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111116",
+    "accountNumber": "ACC1000006",
+    "customerId": "22222222-2222-2222-2222-222222222224",
+    "accountType": "SAVINGS",
+    "balance": "12500.75",
+    "status": "FROZEN",
+    "createdDate": "2025-05-19T21:19:17.206373"
+  },
+  {
+    "id": "11111111-1111-1111-1111-111111111111",
+    "accountNumber": "ACC1000001",
+    "customerId": "22222222-2222-2222-2222-222222222222",
+    "accountType": "CHECKING",
+    "balance": "5000.00",
+    "status": "INACTIVE",
+    "createdDate": "2025-04-24T21:19:17.121714"
+  }
+]

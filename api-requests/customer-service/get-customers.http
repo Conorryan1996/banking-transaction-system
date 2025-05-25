@@ -1,0 +1,53 @@
+### Get all customers (should return sample data)
+GET http://localhost:5001/customers
+Accept: application/json
+
+###
+
+### Get specific customer by ID (using sample data ID)
+GET http://localhost:5001/customers/22222222-2222-2222-2222-222222222222
+Accept: application/json
+
+###
+
+### Get customer by email
+GET http://localhost:5001/customers/email/john.smith@example.com
+Accept: application/json
+
+###
+
+### Search customers by name
+GET http://localhost:5001/customers/search?query=John
+Accept: application/json
+
+###
+
+### Search customers by partial last name
+GET http://localhost:5001/customers/search?query=Smith
+Accept: application/json
+
+###
+
+### Check if customer exists
+GET http://localhost:5001/customers/22222222-2222-2222-2222-222222222222/exists
+Accept: application/json
+
+###
+
+### Get all accounts for a customer (gRPC call to Account Service)
+GET http://localhost:5001/customers/22222222-2222-2222-2222-222222222222/accounts
+Accept: application/json
+
+###
+
+### Try to get non-existent customer (should return 400 error)
+GET http://localhost:5001/customers/99999999-9999-9999-9999-999999999999
+Accept: application/json
+
+###
+
+### Try to get customer with invalid email (should return 400 error)
+GET http://localhost:5001/customers/email/nonexistent@example.com
+Accept: application/json
+
+###

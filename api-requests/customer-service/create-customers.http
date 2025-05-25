@@ -1,0 +1,107 @@
+### Create a new individual customer (with auto account creation)
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Alice",
+  "lastName": "Johnson",
+  "email": "alice.johnson@example.com",
+  "phone": "+1-555-0177",
+  "dateOfBirth": "1990-05-15",
+  "customerType": "INDIVIDUAL"
+}
+
+###
+
+### Create another individual customer
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Bob",
+  "lastName": "Wilson",
+  "email": "bob.wilson@example.com",
+  "phone": "+1-555-0188",
+  "dateOfBirth": "1985-08-22",
+  "customerType": "INDIVIDUAL"
+}
+
+###
+
+### Create a business customer
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Tech",
+  "lastName": "Startup Inc",
+  "email": "contact@techstartup.com",
+  "phone": "+1-555-0199",
+  "dateOfBirth": "2020-01-01",
+  "customerType": "BUSINESS"
+}
+
+###
+
+### Create customer with minimal data (only required fields)
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Sarah",
+  "lastName": "Davis",
+  "email": "sarah.davis@example.com",
+  "customerType": "INDIVIDUAL"
+}
+
+###
+
+### Try to create customer with duplicate email (should fail)
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Duplicate",
+  "email": "john.smith@example.com",
+  "customerType": "INDIVIDUAL"
+}
+
+###
+
+### Try to create customer with invalid email format (should fail validation)
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Invalid",
+  "lastName": "Email",
+  "email": "not-an-email",
+  "customerType": "INDIVIDUAL"
+}
+
+###
+
+### Try to create customer with missing required fields (should fail validation)
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Missing",
+  "email": "missing.lastname@example.com"
+}
+
+###
+
+### Try to create customer with null customer type (should fail validation)
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "No",
+  "lastName": "Type",
+  "email": "no.type@example.com",
+  "customerType": null
+}
+
+###

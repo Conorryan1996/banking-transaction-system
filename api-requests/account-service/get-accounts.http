@@ -27,3 +27,11 @@ GET http://localhost:5000/accounts/99999999-9999-9999-9999-999999999999
 Accept: application/json
 
 ###
+### Try to get non-existent account (should return 400 error)
+GET http://localhost:5001/customers
+Accept: application/json
+
+
+###
+
+###

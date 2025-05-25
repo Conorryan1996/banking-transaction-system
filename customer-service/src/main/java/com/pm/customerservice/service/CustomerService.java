@@ -8,7 +8,12 @@ import com.pm.customerservice.mapper.CustomerMapper;
 import com.pm.customerservice.model.Customer;
 import com.pm.customerservice.model.CustomerStatus;
 import com.pm.customerservice.repository.CustomerRepository;
+import com.pm.customerservice.grpc.AccountServiceClient;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -16,10 +21,14 @@ import java.util.UUID;
 @Service
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
-    public CustomerService(CustomerRepository customerRepository) {
+    private final CustomerRepository customerRepository;
+    private final AccountServiceClient accountServiceClient;
+
+    public CustomerService(CustomerRepository customerRepository, AccountServiceClient accountServiceClient) {
         this.customerRepository = customerRepository;
+        this.accountServiceClient = accountServiceClient;
     }
 
     public List<CustomerResponseDTO> getAllCustomers() {
@@ -60,6 +69,23 @@ public class CustomerService {
         customer.setCreatedDate(LocalDateTime.now());
 
         Customer savedCustomer = customerRepository.save(customer);
+        logger.info("Created customer: {} {}", savedCustomer.getFirstName(), savedCustomer.getLastName());
+
+        // Automatically create default checking account
+        try {
+            logger.info("Creating default account for customer: {}", savedCustomer.getId());
+            accountServiceClient.createDefaultAccount(
+                    savedCustomer.getId().toString(),
+                    com.pm.grpc.common.AccountType.ACCOUNT_TYPE_CHECKING,
+                    "100.00" // Default initial deposit
+            );
+            logger.info("Successfully created default account for customer: {}", savedCustomer.getId());
+        } catch (Exception e) {
+            logger.error("Failed to create default account for customer {}: {}", savedCustomer.getId(), e.getMessage());
+            // Don't fail customer creation if account creation fails
+            // In production, you might want to queue this for retry
+        }
+
         return CustomerMapper.toDTO(savedCustomer);
     }
 

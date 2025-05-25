@@ -1,0 +1,16 @@
+{
+  "accounts": [],
+  "message": "Customer created successfully with default account",
+  "customer": {
+    "id": "f8dc7b71-8e24-4e66-9b07-0ed107a8778a",
+    "firstName": "Integrationing",
+    "lastName": "Test Username",
+    "fullName": "Integrationing Test Username",
+    "email": "integration.testnaming@example.com",
+    "phone": "+1-555-0200",
+    "dateOfBirth": "1992-03-10",
+    "status": "PENDING_VERIFICATION",
+    "customerType": "INDIVIDUAL",
+    "createdDate": "2025-05-25T20:18:11.320526314"
+  }
+}

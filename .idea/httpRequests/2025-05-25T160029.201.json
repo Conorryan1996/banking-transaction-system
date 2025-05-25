@@ -1,0 +1,16 @@
+{
+  "accounts": [],
+  "message": "Customer created successfully with default account",
+  "customer": {
+    "id": "ebd6dc22-0bfb-477f-a7f0-fa338174de66",
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "fullName": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "phone": "+1-555-0177",
+    "dateOfBirth": "1990-05-15",
+    "status": "PENDING_VERIFICATION",
+    "customerType": "INDIVIDUAL",
+    "createdDate": "2025-05-25T20:00:28.949023354"
+  }
+}

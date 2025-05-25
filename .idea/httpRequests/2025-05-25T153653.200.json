@@ -1,0 +1,50 @@
+[
+  {
+    "id": "22222222-2222-2222-2222-222222222222",
+    "firstName": "John",
+    "lastName": "Smith",
+    "fullName": "John Smith",
+    "email": "john.smith@example.com",
+    "phone": "+1-555-0123",
+    "dateOfBirth": "1985-06-15",
+    "status": "ACTIVE",
+    "customerType": "INDIVIDUAL",
+    "createdDate": "2025-04-20T18:32:12.108639"
+  },
+  {
+    "id": "22222222-2222-2222-2222-222222222223",
+    "firstName": "ABC",
+    "lastName": "Corporation",
+    "fullName": "ABC Corporation",
+    "email": "contact@abccorp.com",
+    "phone": "+1-555-0124",
+    "dateOfBirth": "1990-01-01",
+    "status": "ACTIVE",
+    "customerType": "BUSINESS",
+    "createdDate": "2025-04-25T18:32:12.114048"
+  },
+  {
+    "id": "22222222-2222-2222-2222-222222222224",
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "fullName": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "phone": "+1-555-0125",
+    "dateOfBirth": "1992-03-20",
+    "status": "PENDING_VERIFICATION",
+    "customerType": "INDIVIDUAL",
+    "createdDate": "2025-05-18T18:32:12.116315"
+  },
+  {
+    "id": "22222222-2222-2222-2222-222222222225",
+    "firstName": "Tech",
+    "lastName": "Innovations LLC",
+    "fullName": "Tech Innovations LLC",
+    "email": "info@techinnovations.com",
+    "phone": "+1-555-0126",
+    "dateOfBirth": "2020-05-10",
+    "status": "ACTIVE",
+    "customerType": "BUSINESS",
+    "createdDate": "2025-05-10T18:32:12.118682"
+  }
+]

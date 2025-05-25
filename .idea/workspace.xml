@@ -5,25 +5,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="74306407-fdfa-4716-99c5-d2208e734cc2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared-proto.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared-proto/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared-proto/src/main/proto/account_service.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared-proto/src/main/proto/common.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared-proto/src/main/proto/customer_service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/account-service/src/main/java/com/pm/accountservice/grpc/AccountGrpcService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-requests/customer-service/create-customers.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-requests/customer-service/get-customers.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-requests/customer-service/integration-test.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/customer-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/customer-service/src/main/java/com/pm/customerservice/config/GrpcClientConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/customer-service/src/main/java/com/pm/customerservice/grpc/AccountServiceClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/customer-service/src/main/java/com/pm/customerservice/grpc/CustomerGrpcService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-25T073720.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-25T073726.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-25T073731.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-25T073734.400.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-25T073936.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-25T073942.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/account-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/account-service/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/account-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/account-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account-service/src/main/java/com/pm/accountservice/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/account-service/src/main/java/com/pm/accountservice/controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-requests/account-service/account-operations.http" beforeDir="false" afterPath="$PROJECT_DIR$/api-requests/account-service/account-operations.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-requests/account-service/create-account.http" beforeDir="false" afterPath="$PROJECT_DIR$/api-requests/account-service/create-account.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/account-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/account-service/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api-requests/account-service/get-accounts.http" beforeDir="false" afterPath="$PROJECT_DIR$/api-requests/account-service/get-accounts.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/banking-transaction-system.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customer-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/customer-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customer-service/src/main/java/com/pm/customerservice/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/customer-service/src/main/java/com/pm/customerservice/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customer-service/src/main/java/com/pm/customerservice/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/customer-service/src/main/java/com/pm/customerservice/service/CustomerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customer-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/customer-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customer-service/src/test/java/com/pm/customerservice/CustomerServiceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared-proto/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/shared-proto/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Exception" />
+        <option value="Class" />
+        <option value="Dockerfile" />
+        <option value="HTTP Request" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,48 +72,70 @@
   "keyToString": {
     "HTTP Request.account-operations | #2.executor": "Run",
     "HTTP Request.account-operations | #3.executor": "Run",
+    "HTTP Request.create-customers | Create a new individual customer (with auto account creation).executor": "Run",
+    "HTTP Request.get-accounts | #2.executor": "Run",
     "HTTP Request.get-accounts | #3.executor": "Run",
     "HTTP Request.get-accounts | #4.executor": "Run",
     "HTTP Request.get-accounts | #5.executor": "Run",
+    "HTTP Request.get-accounts | #6.executor": "Run",
     "HTTP Request.get-accounts | Get all accounts (should return sample data).executor": "Run",
+    "HTTP Request.integration-test | #3.executor": "Run",
+    "HTTP Request.integration-test | Integration Test Suite - Customer to Account Service Communication.executor": "Run",
+    "HTTP Request.integration-test | NOTE: Copy the customer ID from the response above and use it in the requests below.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/ubuntu/Desktop/patient-management",
+    "last_opened_file_path": "/home/ubuntu/Desktop/banking-transaction-system",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "onboarding.tips.debug.path": "/home/ubuntu/Desktop/banking-transaction-system/shared-proto/src/main/java/com/pm/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="HTTP Request.account-operations | #3">
-    <configuration name="account-operations | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/account-service/account-operations.http" executionIdentifier="#2" index="2" runType="Run single request">
+  <component name="RunManager" selected="HTTP Request.integration-test | #3">
+    <configuration name="create-customers | Create a new individual customer (with auto account creation)" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/customer-service/create-customers.http" executionIdentifier="Create a new individual customer (with auto account creation)" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="account-operations | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/account-service/account-operations.http" executionIdentifier="#3" index="3" runType="Run single request">
+    <configuration name="get-accounts | #6" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/account-service/get-accounts.http" executionIdentifier="#6" index="6" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="get-accounts | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/account-service/get-accounts.http" executionIdentifier="#3" index="3" runType="Run single request">
+    <configuration name="integration-test | Integration Test Suite - Customer to Account Service Communication" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/customer-service/integration-test.http" executionIdentifier="Integration Test Suite - Customer to Account Service Communication" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="get-accounts | #4" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/account-service/get-accounts.http" executionIdentifier="#4" index="4" runType="Run single request">
+    <configuration name="integration-test | NOTE: Copy the customer ID from the response above and use it in the requests below" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/customer-service/integration-test.http" executionIdentifier="NOTE: Copy the customer ID from the response above and use it in the requests below" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="get-accounts | #5" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/account-service/get-accounts.http" executionIdentifier="#5" index="5" runType="Run single request">
+    <configuration name="integration-test | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-requests/customer-service/integration-test.http" executionIdentifier="#3" index="3" runType="Run single request">
       <method v="2" />
+    </configuration>
+    <configuration name="AccountServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="account-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pm.accountservice.AccountServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CustomerServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="customer-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pm.customerservice.CustomerServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.account-operations | #3" />
-        <item itemvalue="HTTP Request.account-operations | #2" />
-        <item itemvalue="HTTP Request.get-accounts | #5" />
-        <item itemvalue="HTTP Request.get-accounts | #4" />
-        <item itemvalue="HTTP Request.get-accounts | #3" />
+        <item itemvalue="HTTP Request.integration-test | #3" />
+        <item itemvalue="HTTP Request.integration-test | Integration Test Suite - Customer to Account Service Communication" />
+        <item itemvalue="HTTP Request.integration-test | NOTE: Copy the customer ID from the response above and use it in the requests below" />
+        <item itemvalue="HTTP Request.create-customers | Create a new individual customer (with auto account creation)" />
+        <item itemvalue="HTTP Request.get-accounts | #6" />
       </list>
     </recent_temporary>
   </component>
@@ -101,7 +155,10 @@
       <option name="presentableId" value="Default" />
       <updated>1748170377139</updated>
       <workItem from="1748170378619" duration="124000" />
-      <workItem from="1748170595172" duration="7141000" />
+      <workItem from="1748170595172" duration="13142000" />
+      <workItem from="1748195115965" duration="993000" />
+      <workItem from="1748196129609" duration="1212000" />
+      <workItem from="1748197368146" duration="5806000" />
     </task>
     <servers />
   </component>

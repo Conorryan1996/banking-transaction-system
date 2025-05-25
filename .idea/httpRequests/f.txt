@@ -1,0 +1,12 @@
+{
+  "id": "f25351c4-3220-4807-adff-c155649584cb",
+  "firstName": "Integration",
+  "lastName": "Test User",
+  "fullName": "Integration Test User",
+  "email": "integration.test@example.com",
+  "phone": "+1-555-0200",
+  "dateOfBirth": "1992-03-10",
+  "status": "PENDING_VERIFICATION",
+  "customerType": "INDIVIDUAL",
+  "createdDate": "2025-05-25T20:04:16.431232"
+}

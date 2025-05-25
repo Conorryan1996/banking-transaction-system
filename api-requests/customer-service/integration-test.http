@@ -1,0 +1,114 @@
+### Integration Test Suite - Customer to Account Service Communication
+
+### Step 1: Create a new customer (should auto-create account)
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Integrationinging",
+  "lastName": "Test Username",
+  "email": "integration.testnaminging@example.com",
+  "phone": "+1-555-0200",
+  "dateOfBirth": "1992-03-10",
+  "customerType": "INDIVIDUAL"
+}
+
+### NOTE: Copy the customer ID from the response above and use it in the requests below
+### Replace {CUSTOMER_ID} with the actual ID returned
+
+###
+
+### Step 2: Verify customer was created
+GET http://localhost:5001/customers/email/integration.test@example.com
+Accept: application/json
+
+###
+
+### Step 3: Get customer's accounts (should show the auto-created account)
+GET http://localhost:5001/customers/cb15bde8-4899-4782-8eca-41e3dd9817e4/accounts
+Accept: application/json
+
+###
+
+### Step 4: Verify account exists in Account Service directly
+GET http://localhost:5000/accounts/customer/{CUSTOMER_ID}
+Accept: application/json
+
+###
+
+### Step 5: Create additional account for the customer directly via Account Service
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "customerId": "{CUSTOMER_ID}",
+  "accountType": "SAVINGS",
+  "initialDeposit": 5000.00
+}
+
+###
+
+### Step 6: Verify customer now has multiple accounts
+GET http://localhost:5001/customers/{CUSTOMER_ID}/accounts
+Accept: application/json
+
+###
+
+### Step 7: Test customer status change
+PUT http://localhost:5001/customers/{CUSTOMER_ID}/status?status=SUSPENDED
+Content-Type: application/json
+
+###
+
+### Step 8: Verify customer status changed
+GET http://localhost:5001/customers/{CUSTOMER_ID}
+Accept: application/json
+
+###
+
+### Step 9: Create business customer with higher initial deposit (modify the gRPC call)
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Big",
+  "lastName": "Corporation Ltd",
+  "email": "big.corp@example.com",
+  "phone": "+1-555-0201",
+  "customerType": "BUSINESS"
+}
+
+###
+
+### Step 10: Full workflow test - Create customer and immediately check their account balance
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Workflow",
+  "lastName": "Test User",
+  "email": "workflow.test@example.com",
+  "customerType": "INDIVIDUAL"
+}
+
+### Copy the account ID from the response and use it below
+
+###
+
+### Step 11: Check the account balance directly
+GET http://localhost:5000/accounts/{ACCOUNT_ID}/balance
+Accept: application/json
+
+###
+
+### Step 12: Update account status via Account Service
+PUT http://localhost:5000/accounts/{ACCOUNT_ID}/status?status=FROZEN
+Accept: application/json
+
+###
+
+### Step 13: Verify account status changed when viewing through Customer Service
+GET http://localhost:5001/customers/{CUSTOMER_ID}/accounts
+Accept: application/json
+
+###
