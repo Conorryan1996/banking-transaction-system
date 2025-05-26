@@ -1,3 +1,4 @@
+
 package com.pm.accountservice.service;
 
 import com.pm.accountservice.dto.AccountRequestDTO;
@@ -8,6 +9,7 @@ import com.pm.accountservice.model.Account;
 import com.pm.accountservice.model.AccountStatus;
 import com.pm.accountservice.repository.AccountRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -70,6 +72,25 @@ public class AccountService {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new AccountNotFoundException("Account not found: " + id));
         return account.getBalance();
+    }
+
+    // NEW: Method to update account balance (for transaction service)
+    @Transactional
+    public AccountResponseDTO updateAccountBalance(UUID accountId, BigDecimal newBalance, String transactionId, String description) {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found: " + accountId));
+
+        // Validate account is active
+        if (account.getStatus() != AccountStatus.ACTIVE) {
+            throw new IllegalStateException("Cannot update balance for non-active account: " + account.getStatus());
+        }
+
+        // Update balance
+        account.setBalance(newBalance);
+        account.setLastModifiedDate(LocalDateTime.now());
+
+        Account updatedAccount = accountRepository.save(account);
+        return AccountMapper.toDTO(updatedAccount);
     }
 
     private String generateAccountNumber() {

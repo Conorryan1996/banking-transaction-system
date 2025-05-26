@@ -48,6 +48,7 @@ public class Transaction {
     @NotNull
     private LocalDateTime processedDate;
 
+    @NotNull
     private LocalDateTime createdDate;
 
     private LocalDateTime lastModifiedDate;
@@ -96,3 +97,4 @@ public class Transaction {
 
     public LocalDateTime getLastModifiedDate() { return lastModifiedDate; }
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) { this.lastModifiedDate = lastModifiedDate; }
+}

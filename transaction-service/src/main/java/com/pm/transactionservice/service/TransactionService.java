@@ -8,7 +8,6 @@ import com.pm.transactionservice.grpc.AccountServiceClient;
 import com.pm.transactionservice.mapper.TransactionMapper;
 import com.pm.transactionservice.model.Transaction;
 import com.pm.transactionservice.model.TransactionStatus;
-import com.pm.transactionservice.model.TransactionType;
 import com.pm.transactionservice.repository.TransactionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -62,6 +60,15 @@ public class TransactionService {
                                     ", Requested withdrawal: " + transactionAmount);
                 }
                 break;
+            case TRANSFER:
+                // For now, treat transfer as withdrawal from source account
+                newBalance = currentBalance.subtract(transactionAmount);
+                if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
+                    throw new InsufficientFundsException(
+                            "Insufficient funds for transfer. Current balance: " + currentBalance +
+                                    ", Requested transfer: " + transactionAmount);
+                }
+                break;
             default:
                 throw new IllegalArgumentException("Unsupported transaction type: " + request.getTransactionType());
         }
@@ -85,7 +92,10 @@ public class TransactionService {
         try {
             // Update account balance via gRPC
             var updateResult = accountServiceClient.updateAccountBalance(
-                    request.getAccountId().toString(), newBalance.toString());
+                    request.getAccountId().toString(),
+                    newBalance.toString(),
+                    savedTransaction.getId().toString(),
+                    request.getDescription());
 
             if (updateResult.getServiceResponse().getSuccess()) {
                 // Mark transaction as completed
