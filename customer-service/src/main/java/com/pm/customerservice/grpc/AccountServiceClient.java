@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
+import io.grpc.StatusRuntimeException;
 
 @Service
 public class AccountServiceClient {
@@ -23,6 +24,15 @@ public class AccountServiceClient {
             logger.error("CRITICAL: accountServiceStub is NULL! gRPC client injection failed!");
         } else {
             logger.info("SUCCESS: accountServiceStub injected successfully");
+
+            // Test connection
+            try {
+                logger.info("Testing gRPC connection to account-service...");
+                // We'll test connection when actually making calls rather than here
+                // since the service might not be ready during startup
+            } catch (Exception e) {
+                logger.warn("Could not test gRPC connection during startup: {}", e.getMessage());
+            }
         }
     }
 
@@ -33,6 +43,7 @@ public class AccountServiceClient {
             logger.info("Creating default account for customer: {}", customerId);
 
             if (accountServiceStub == null) {
+                logger.error("accountServiceStub is null - gRPC client not properly injected");
                 throw new RuntimeException("gRPC client not initialized - accountServiceStub is null");
             }
 
@@ -41,6 +52,9 @@ public class AccountServiceClient {
                     .setAccountType(accountType)
                     .setInitialDeposit(initialDeposit != null && !initialDeposit.isEmpty() ? initialDeposit : "100.00")
                     .build();
+
+            logger.debug("Sending CreateAccount request: customerId={}, accountType={}, initialDeposit={}",
+                    customerId, accountType, initialDeposit);
 
             CreateAccountResponse response = accountServiceStub.createAccount(request);
 
@@ -53,9 +67,15 @@ public class AccountServiceClient {
                         .setBalance(response.getBalance())
                         .build();
             } else {
-                throw new RuntimeException("Failed to create account: " + response.getServiceResponse().getMessage());
+                String errorMsg = "Failed to create account: " + response.getServiceResponse().getMessage();
+                logger.error(errorMsg);
+                throw new RuntimeException(errorMsg);
             }
 
+        } catch (StatusRuntimeException e) {
+            logger.error("gRPC call failed for createDefaultAccount - Status: {} - Description: {}",
+                    e.getStatus().getCode(), e.getStatus().getDescription(), e);
+            throw new RuntimeException("Failed to create default account - gRPC service unavailable", e);
         } catch (Exception e) {
             logger.error("Error creating default account for customer {}", customerId, e);
             throw new RuntimeException("Failed to create default account", e);
@@ -67,6 +87,7 @@ public class AccountServiceClient {
             logger.info("Getting accounts for customer: {}", customerId);
 
             if (accountServiceStub == null) {
+                logger.error("accountServiceStub is null - gRPC client not properly injected");
                 throw new RuntimeException("gRPC client not initialized - accountServiceStub is null");
             }
 
@@ -74,12 +95,19 @@ public class AccountServiceClient {
                     .setCustomerId(customerId)
                     .build();
 
+            logger.debug("Sending GetAccountsByCustomer request for customerId: {}", customerId);
+
             GetAccountsByCustomerResponse response = accountServiceStub.getAccountsByCustomer(request);
+
             logger.info("Retrieved {} accounts for customer {}",
                     response.getAccountsList().size(), customerId);
 
             return response;
 
+        } catch (StatusRuntimeException e) {
+            logger.error("gRPC call failed for getAccountsByCustomer - Status: {} - Description: {}",
+                    e.getStatus().getCode(), e.getStatus().getDescription(), e);
+            throw new RuntimeException("Failed to get customer accounts - gRPC service unavailable", e);
         } catch (Exception e) {
             logger.error("Error getting accounts for customer {}", customerId, e);
             throw new RuntimeException("Failed to get customer accounts", e);
@@ -91,6 +119,7 @@ public class AccountServiceClient {
             logger.info("Validating customer via Account Service: {}", customerId);
 
             if (accountServiceStub == null) {
+                logger.error("accountServiceStub is null - gRPC client not properly injected");
                 throw new RuntimeException("gRPC client not initialized - accountServiceStub is null");
             }
 
@@ -100,6 +129,10 @@ public class AccountServiceClient {
 
             return accountServiceStub.validateCustomer(request);
 
+        } catch (StatusRuntimeException e) {
+            logger.error("gRPC call failed for validateCustomer - Status: {} - Description: {}",
+                    e.getStatus().getCode(), e.getStatus().getDescription(), e);
+            throw new RuntimeException("Failed to validate customer - gRPC service unavailable", e);
         } catch (Exception e) {
             logger.error("Error validating customer {}", customerId, e);
             throw new RuntimeException("Failed to validate customer", e);
@@ -111,6 +144,7 @@ public class AccountServiceClient {
             logger.info("Getting balance for account: {}", accountId);
 
             if (accountServiceStub == null) {
+                logger.error("accountServiceStub is null - gRPC client not properly injected");
                 throw new RuntimeException("gRPC client not initialized - accountServiceStub is null");
             }
 
@@ -120,6 +154,10 @@ public class AccountServiceClient {
 
             return accountServiceStub.getAccountBalance(request);
 
+        } catch (StatusRuntimeException e) {
+            logger.error("gRPC call failed for getAccountBalance - Status: {} - Description: {}",
+                    e.getStatus().getCode(), e.getStatus().getDescription(), e);
+            throw new RuntimeException("Failed to get account balance - gRPC service unavailable", e);
         } catch (Exception e) {
             logger.error("Error getting balance for account {}", accountId, e);
             throw new RuntimeException("Failed to get account balance", e);

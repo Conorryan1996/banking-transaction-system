@@ -1,3 +1,111 @@
+GET http://localhost:5001/customers/64a70290-d048-4312-a820-561e3be2d8fd/accounts
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2025-05-25T182836.200.json
+
+###
+
+POST http://localhost:5001/customers
+Content-Type: application/json
+Content-Length: 224
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Integrationinging1234567",
+  "lastName": "Test Username",
+  "email": "integration.testnaminging1234567@example.com",
+  "phone": "+1-555-0200",
+  "dateOfBirth": "1992-03-10",
+  "customerType": "INDIVIDUAL"
+}
+
+<> 2025-05-25T182622.201.json
+
+###
+
+GET http://localhost:5000/accounts/customer/a34bc73d-dfe6-49a1-9cb1-47627a19d80e
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2025-05-25T182544.200.json
+
+###
+
+GET http://localhost:5001/customers/3d4a43fd-7d5d-4330-8762-12800ffa15ed/accounts
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+###
+
+POST http://localhost:5001/customers
+Content-Type: application/json
+Content-Length: 220
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Integrationinging12345",
+  "lastName": "Test Username",
+  "email": "integration.testnaminging12345@example.com",
+  "phone": "+1-555-0200",
+  "dateOfBirth": "1992-03-10",
+  "customerType": "INDIVIDUAL"
+}
+
+<> 2025-05-25T182357.201.json
+
+###
+
+GET http://localhost:5001/customers/a34bc73d-dfe6-49a1-9cb1-47627a19d80e/accounts
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+###
+
+GET http://localhost:5001/customers/cb15bde8-4899-4782-8eca-41e3dd9817e4/accounts
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+###
+
+GET http://localhost:5000/accounts/customer/a34bc73d-dfe6-49a1-9cb1-47627a19d80e
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2025-05-25T180752.200.json
+
+###
+
+POST http://localhost:5001/customers
+Content-Type: application/json
+Content-Length: 216
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Integrationinging123",
+  "lastName": "Test Username",
+  "email": "integration.testnaminging123@example.com",
+  "phone": "+1-555-0200",
+  "dateOfBirth": "1992-03-10",
+  "customerType": "INDIVIDUAL"
+}
+
+<> 2025-05-25T180716.201.json
+
+###
+
 GET http://localhost:5001/customers/cb15bde8-4899-4782-8eca-41e3dd9817e4/accounts
 Accept: application/json
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.1.1

@@ -5,9 +5,9 @@ POST http://localhost:5001/customers
 Content-Type: application/json
 
 {
-  "firstName": "Integrationinging",
+  "firstName": "Integrationinging1234567",
   "lastName": "Test Username",
-  "email": "integration.testnaminging@example.com",
+  "email": "integration.testnaminging1234567@example.com",
   "phone": "+1-555-0200",
   "dateOfBirth": "1992-03-10",
   "customerType": "INDIVIDUAL"
@@ -25,13 +25,13 @@ Accept: application/json
 ###
 
 ### Step 3: Get customer's accounts (should show the auto-created account)
-GET http://localhost:5001/customers/cb15bde8-4899-4782-8eca-41e3dd9817e4/accounts
+GET http://localhost:5001/customers/64a70290-d048-4312-a820-561e3be2d8fd/accounts
 Accept: application/json
 
 ###
 
 ### Step 4: Verify account exists in Account Service directly
-GET http://localhost:5000/accounts/customer/{CUSTOMER_ID}
+GET http://localhost:5000/accounts/customer/a34bc73d-dfe6-49a1-9cb1-47627a19d80e
 Accept: application/json
 
 ###

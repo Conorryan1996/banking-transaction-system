@@ -1,0 +1,26 @@
+{
+  "accounts": [
+    {
+      "createdDate": "2025-05-25T22:23:57.262127",
+      "balance": "100.00",
+      "accountType": "CHECKING",
+      "customerId": "3d4a43fd-7d5d-4330-8762-12800ffa15ed",
+      "id": "7588734a-15f1-4622-ac1d-0204397f24fb",
+      "accountNumber": "ACC1748211837153",
+      "status": "ACTIVE"
+    }
+  ],
+  "message": "Customer created successfully with default account",
+  "customer": {
+    "id": "3d4a43fd-7d5d-4330-8762-12800ffa15ed",
+    "firstName": "Integrationinging12345",
+    "lastName": "Test Username",
+    "fullName": "Integrationinging12345 Test Username",
+    "email": "integration.testnaminging12345@example.com",
+    "phone": "+1-555-0200",
+    "dateOfBirth": "1992-03-10",
+    "status": "PENDING_VERIFICATION",
+    "customerType": "INDIVIDUAL",
+    "createdDate": "2025-05-25T22:23:55.122240640"
+  }
+}
