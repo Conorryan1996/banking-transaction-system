@@ -12,6 +12,8 @@ service AccountService {
   rpc UpdateAccountStatus (UpdateAccountStatusRequest) returns (UpdateAccountStatusResponse);
   rpc GetAccountBalance (GetAccountBalanceRequest) returns (GetAccountBalanceResponse);
   rpc ValidateCustomer (ValidateCustomerRequest) returns (ValidateCustomerResponse);
+  // NEW: Add balance update method for transactions
+  rpc UpdateAccountBalance (UpdateAccountBalanceRequest) returns (UpdateAccountBalanceResponse);
 }
 
 message CreateAccountRequest {
@@ -85,4 +87,20 @@ message ValidateCustomerResponse {
   bool exists = 1;
   string customer_name = 2;
   common.ServiceResponse service_response = 3;
+}
+
+// NEW: Messages for balance updates
+message UpdateAccountBalanceRequest {
+  string account_id = 1;
+  string new_balance = 2;
+  string transaction_id = 3; // For audit trail
+  string description = 4;
+}
+
+message UpdateAccountBalanceResponse {
+  string account_id = 1;
+  string previous_balance = 2;
+  string new_balance = 3;
+  string last_modified_date = 4;
+  common.ServiceResponse service_response = 5;
 }

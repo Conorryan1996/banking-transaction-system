@@ -26,31 +26,39 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!-- SPRING BOOT DEPENDENCIES -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
+        <!-- SPRING BOOT WEB STARTER - REQUIRED FOR REST CONTROLLERS -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- SPRING BOOT DATA JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- SPRING BOOT VALIDATION - REQUIRED FOR @Valid AND VALIDATION ANNOTATIONS -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- POSTGRESQL DATABASE DRIVER -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- SPRINGDOC OPENAPI - FOR SWAGGER UI AND @Operation, @Tag ANNOTATIONS -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.8.8</version>
         </dependency>
 
-        <!-- gRPC DEPENDENCIES -->
+        <!-- gRPC SPRING BOOT STARTER -->
         <dependency>
             <groupId>net.devh</groupId>
             <artifactId>grpc-spring-boot-starter</artifactId>

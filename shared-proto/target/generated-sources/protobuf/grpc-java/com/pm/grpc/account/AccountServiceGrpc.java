@@ -5,7 +5,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.63.0)",
+    value = "by gRPC proto compiler (version 1.58.0)",
     comments = "Source: account_service.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class AccountServiceGrpc {
@@ -201,6 +201,37 @@ public final class AccountServiceGrpc {
     return getValidateCustomerMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.pm.grpc.account.UpdateAccountBalanceRequest,
+      com.pm.grpc.account.UpdateAccountBalanceResponse> getUpdateAccountBalanceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "UpdateAccountBalance",
+      requestType = com.pm.grpc.account.UpdateAccountBalanceRequest.class,
+      responseType = com.pm.grpc.account.UpdateAccountBalanceResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.pm.grpc.account.UpdateAccountBalanceRequest,
+      com.pm.grpc.account.UpdateAccountBalanceResponse> getUpdateAccountBalanceMethod() {
+    io.grpc.MethodDescriptor<com.pm.grpc.account.UpdateAccountBalanceRequest, com.pm.grpc.account.UpdateAccountBalanceResponse> getUpdateAccountBalanceMethod;
+    if ((getUpdateAccountBalanceMethod = AccountServiceGrpc.getUpdateAccountBalanceMethod) == null) {
+      synchronized (AccountServiceGrpc.class) {
+        if ((getUpdateAccountBalanceMethod = AccountServiceGrpc.getUpdateAccountBalanceMethod) == null) {
+          AccountServiceGrpc.getUpdateAccountBalanceMethod = getUpdateAccountBalanceMethod =
+              io.grpc.MethodDescriptor.<com.pm.grpc.account.UpdateAccountBalanceRequest, com.pm.grpc.account.UpdateAccountBalanceResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "UpdateAccountBalance"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.pm.grpc.account.UpdateAccountBalanceRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.pm.grpc.account.UpdateAccountBalanceResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new AccountServiceMethodDescriptorSupplier("UpdateAccountBalance"))
+              .build();
+        }
+      }
+    }
+    return getUpdateAccountBalanceMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -290,6 +321,16 @@ public final class AccountServiceGrpc {
         io.grpc.stub.StreamObserver<com.pm.grpc.account.ValidateCustomerResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getValidateCustomerMethod(), responseObserver);
     }
+
+    /**
+     * <pre>
+     * NEW: Add balance update method for transactions
+     * </pre>
+     */
+    default void updateAccountBalance(com.pm.grpc.account.UpdateAccountBalanceRequest request,
+        io.grpc.stub.StreamObserver<com.pm.grpc.account.UpdateAccountBalanceResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdateAccountBalanceMethod(), responseObserver);
+    }
   }
 
   /**
@@ -366,6 +407,17 @@ public final class AccountServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getValidateCustomerMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * NEW: Add balance update method for transactions
+     * </pre>
+     */
+    public void updateAccountBalance(com.pm.grpc.account.UpdateAccountBalanceRequest request,
+        io.grpc.stub.StreamObserver<com.pm.grpc.account.UpdateAccountBalanceResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getUpdateAccountBalanceMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -424,6 +476,16 @@ public final class AccountServiceGrpc {
     public com.pm.grpc.account.ValidateCustomerResponse validateCustomer(com.pm.grpc.account.ValidateCustomerRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getValidateCustomerMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * NEW: Add balance update method for transactions
+     * </pre>
+     */
+    public com.pm.grpc.account.UpdateAccountBalanceResponse updateAccountBalance(com.pm.grpc.account.UpdateAccountBalanceRequest request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getUpdateAccountBalanceMethod(), getCallOptions(), request);
     }
   }
 
@@ -490,6 +552,17 @@ public final class AccountServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getValidateCustomerMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * NEW: Add balance update method for transactions
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.pm.grpc.account.UpdateAccountBalanceResponse> updateAccountBalance(
+        com.pm.grpc.account.UpdateAccountBalanceRequest request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getUpdateAccountBalanceMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_ACCOUNT = 0;
@@ -498,6 +571,7 @@ public final class AccountServiceGrpc {
   private static final int METHODID_UPDATE_ACCOUNT_STATUS = 3;
   private static final int METHODID_GET_ACCOUNT_BALANCE = 4;
   private static final int METHODID_VALIDATE_CUSTOMER = 5;
+  private static final int METHODID_UPDATE_ACCOUNT_BALANCE = 6;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -539,6 +613,10 @@ public final class AccountServiceGrpc {
         case METHODID_VALIDATE_CUSTOMER:
           serviceImpl.validateCustomer((com.pm.grpc.account.ValidateCustomerRequest) request,
               (io.grpc.stub.StreamObserver<com.pm.grpc.account.ValidateCustomerResponse>) responseObserver);
+          break;
+        case METHODID_UPDATE_ACCOUNT_BALANCE:
+          serviceImpl.updateAccountBalance((com.pm.grpc.account.UpdateAccountBalanceRequest) request,
+              (io.grpc.stub.StreamObserver<com.pm.grpc.account.UpdateAccountBalanceResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -600,6 +678,13 @@ public final class AccountServiceGrpc {
               com.pm.grpc.account.ValidateCustomerRequest,
               com.pm.grpc.account.ValidateCustomerResponse>(
                 service, METHODID_VALIDATE_CUSTOMER)))
+        .addMethod(
+          getUpdateAccountBalanceMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              com.pm.grpc.account.UpdateAccountBalanceRequest,
+              com.pm.grpc.account.UpdateAccountBalanceResponse>(
+                service, METHODID_UPDATE_ACCOUNT_BALANCE)))
         .build();
   }
 
@@ -654,6 +739,7 @@ public final class AccountServiceGrpc {
               .addMethod(getUpdateAccountStatusMethod())
               .addMethod(getGetAccountBalanceMethod())
               .addMethod(getValidateCustomerMethod())
+              .addMethod(getUpdateAccountBalanceMethod())
               .build();
         }
       }

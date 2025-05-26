@@ -305,4 +305,52 @@ public class AccountGrpcService extends AccountServiceGrpc.AccountServiceImplBas
             default -> throw new IllegalArgumentException("Unknown account status: " + grpcStatus);
         };
     }
+    @Override
+    public void updateAccountBalance(UpdateAccountBalanceRequest request,
+                                     StreamObserver<UpdateAccountBalanceResponse> responseObserver) {
+        try {
+            logger.info("Updating account balance: {} to {} (transaction: {})",
+                    request.getAccountId(), request.getNewBalance(), request.getTransactionId());
+
+            UUID accountId = UUID.fromString(request.getAccountId());
+            BigDecimal newBalance = new BigDecimal(request.getNewBalance());
+
+            // Get current balance first
+            BigDecimal previousBalance = accountService.getBalance(accountId);
+
+            // Update the account balance
+            AccountResponseDTO updatedAccount = accountService.updateAccountBalance(
+                    accountId,
+                    newBalance,
+                    request.getTransactionId(),
+                    request.getDescription()
+            );
+
+            UpdateAccountBalanceResponse response = UpdateAccountBalanceResponse.newBuilder()
+                    .setAccountId(request.getAccountId())
+                    .setPreviousBalance(previousBalance.toString())
+                    .setNewBalance(updatedAccount.getBalance())
+                    .setLastModifiedDate(updatedAccount.getCreatedDate()) // Using createdDate as lastModified
+                    .setServiceResponse(ServiceResponse.newBuilder()
+                            .setSuccess(true)
+                            .setMessage("Account balance updated successfully")
+                            .build())
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+        } catch (Exception e) {
+            logger.error("Error updating account balance", e);
+            UpdateAccountBalanceResponse response = UpdateAccountBalanceResponse.newBuilder()
+                    .setServiceResponse(ServiceResponse.newBuilder()
+                            .setSuccess(false)
+                            .setMessage("Failed to update account balance: " + e.getMessage())
+                            .setErrorCode("BALANCE_UPDATE_ERROR")
+                            .build())
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
 }
