@@ -4,7 +4,7 @@ FROM maven:3.9.9-eclipse-temurin-17 AS builder
 WORKDIR /app
 
 # Copy the entire project
-COPY . .
+COPY src/main/java/com/pm/transactionservice .
 
 # Build shared-proto first (this generates the gRPC classes)
 WORKDIR /app/shared-proto
