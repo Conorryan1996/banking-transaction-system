@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS transactions (
                                             id UUID PRIMARY KEY,
                                             account_id UUID NOT NULL,
                                             customer_id UUID NOT NULL,
+                                            target_account_id UUID,
                                             transaction_type VARCHAR(20) NOT NULL CHECK (transaction_type IN ('DEPOSIT', 'WITHDRAWAL', 'TRANSFER')),
     amount DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     description VARCHAR(500),
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 -- Create indexes for performance
 CREATE INDEX IF NOT EXISTS idx_transactions_account_id ON transactions(account_id);
 CREATE INDEX IF NOT EXISTS idx_transactions_customer_id ON transactions(customer_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_target_account_id ON transactions(target_account_id);
 CREATE INDEX IF NOT EXISTS idx_transactions_status ON transactions(status);
 CREATE INDEX IF NOT EXISTS idx_transactions_type ON transactions(transaction_type);
 CREATE INDEX IF NOT EXISTS idx_transactions_processed_date ON transactions(processed_date DESC);

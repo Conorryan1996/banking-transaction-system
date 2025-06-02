@@ -33,6 +33,13 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
     }
 
+    @PostMapping("/schedule")
+    @Operation(summary = "Schedule a transaction for future processing")
+    public ResponseEntity<TransactionResponseDTO> scheduleTransaction(@Valid @RequestBody TransactionRequestDTO request) {
+        TransactionResponseDTO transaction = transactionService.scheduleTransaction(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Get transaction by ID")
     public ResponseEntity<TransactionResponseDTO> getTransaction(@PathVariable UUID id) {

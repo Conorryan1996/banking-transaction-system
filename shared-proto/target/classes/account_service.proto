@@ -18,7 +18,7 @@ service AccountService {
 
 message CreateAccountRequest {
   string customer_id = 1;
-  common.AccountType account_type = 2;
+  com.pm.grpc.common.AccountType account_type = 2;
   string initial_deposit = 3; // BigDecimal as string for precision
 }
 
@@ -26,11 +26,11 @@ message CreateAccountResponse {
   string account_id = 1;
   string account_number = 2;
   string customer_id = 3;
-  common.AccountType account_type = 4;
+  com.pm.grpc.common.AccountType account_type = 4;
   string balance = 5;
-  common.AccountStatus status = 6;
+  com.pm.grpc.common.AccountStatus status = 6;
   string created_date = 7;
-  common.ServiceResponse service_response = 8;
+  com.pm.grpc.common.ServiceResponse service_response = 8;
 }
 
 message GetAccountRequest {
@@ -41,11 +41,11 @@ message GetAccountResponse {
   string account_id = 1;
   string account_number = 2;
   string customer_id = 3;
-  common.AccountType account_type = 4;
+  com.pm.grpc.common.AccountType account_type = 4;
   string balance = 5;
-  common.AccountStatus status = 6;
+  com.pm.grpc.common.AccountStatus status = 6;
   string created_date = 7;
-  common.ServiceResponse service_response = 8;
+  com.pm.grpc.common.ServiceResponse service_response = 8;
 }
 
 message GetAccountsByCustomerRequest {
@@ -54,19 +54,19 @@ message GetAccountsByCustomerRequest {
 
 message GetAccountsByCustomerResponse {
   repeated GetAccountResponse accounts = 1;
-  common.ServiceResponse service_response = 2;
+  com.pm.grpc.common.ServiceResponse service_response = 2;
 }
 
 message UpdateAccountStatusRequest {
   string account_id = 1;
-  common.AccountStatus new_status = 2;
+  com.pm.grpc.common.AccountStatus new_status = 2;
 }
 
 message UpdateAccountStatusResponse {
   string account_id = 1;
-  common.AccountStatus status = 2;
+  com.pm.grpc.common.AccountStatus status = 2;
   string last_modified_date = 3;
-  common.ServiceResponse service_response = 4;
+  com.pm.grpc.common.ServiceResponse service_response = 4;
 }
 
 message GetAccountBalanceRequest {
@@ -76,7 +76,7 @@ message GetAccountBalanceRequest {
 message GetAccountBalanceResponse {
   string account_id = 1;
   string balance = 2;
-  common.ServiceResponse service_response = 3;
+  com.pm.grpc.common.ServiceResponse service_response = 3;
 }
 
 message ValidateCustomerRequest {
@@ -86,7 +86,7 @@ message ValidateCustomerRequest {
 message ValidateCustomerResponse {
   bool exists = 1;
   string customer_name = 2;
-  common.ServiceResponse service_response = 3;
+  com.pm.grpc.common.ServiceResponse service_response = 3;
 }
 
 // NEW: Messages for balance updates
@@ -102,5 +102,5 @@ message UpdateAccountBalanceResponse {
   string previous_balance = 2;
   string new_balance = 3;
   string last_modified_date = 4;
-  common.ServiceResponse service_response = 5;
+  com.pm.grpc.common.ServiceResponse service_response = 5;
 }

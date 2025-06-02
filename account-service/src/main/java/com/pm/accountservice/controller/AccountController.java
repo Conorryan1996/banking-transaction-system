@@ -74,4 +74,18 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/number/{accountNumber}")
+    @Operation(summary = "Get account by account number")
+    public ResponseEntity<AccountResponseDTO> getAccountByNumber(@PathVariable String accountNumber) {
+        AccountResponseDTO account = accountService.getAccountByNumber(accountNumber);
+        return ResponseEntity.ok(account);
+    }
+
+    @GetMapping("/number/{accountNumber}/exists")
+    @Operation(summary = "Check if account exists by account number")
+    public ResponseEntity<Boolean> checkAccountExists(@PathVariable String accountNumber) {
+        boolean exists = accountService.accountExists(accountNumber);
+        return ResponseEntity.ok(exists);
+    }
+
 }

@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package com.pm.grpc.auth;
+
+option java_multiple_files = true;
+option java_package = "com.pm.grpc.auth";
+option java_outer_classname = "AuthServiceProto";
+
+import "common.proto";
+
+// Authentication service
+service AuthService {
+    // Register a new user
+    rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+    
+    // Validate a JWT token
+    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+    
+    // Get user info from token
+    rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);
+}
+
+// Request to register a new user
+message RegisterUserRequest {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+    string customer_id = 4;
+}
+
+// Response for user registration
+message RegisterUserResponse {
+    bool success = 1;
+    string message = 2;
+    string user_id = 3;
+    com.pm.grpc.common.ServiceResponse service_response = 4;
+}
+
+// Request to validate a token
+message ValidateTokenRequest {
+    string token = 1;
+}
+
+// Response for token validation
+message ValidateTokenResponse {
+    bool is_valid = 1;
+    string user_id = 2;
+    string customer_id = 3;
+    string username = 4;
+    com.pm.grpc.common.ServiceResponse service_response = 5;
+}
+
+// Request to get user info
+message GetUserInfoRequest {
+    string user_id = 1;
+}
+
+// Response with user info
+message GetUserInfoResponse {
+    string user_id = 1;
+    string username = 2;
+    string email = 3;
+    string customer_id = 4;
+    repeated string roles = 5;
+    com.pm.grpc.common.ServiceResponse service_response = 6;
+}

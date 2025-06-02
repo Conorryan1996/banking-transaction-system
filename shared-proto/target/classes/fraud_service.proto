@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package com.pm.grpc.fraud;
+
+option java_multiple_files = true;
+option java_package = "com.pm.grpc.fraud";
+option java_outer_classname = "FraudServiceProto";
+
+import "common.proto";
+
+// Fraud detection service
+service FraudService {
+    // Check if a transaction would trigger fraud rules
+    rpc CheckTransaction(CheckTransactionRequest) returns (CheckTransactionResponse);
+    
+    // Get fraud alerts for a customer
+    rpc GetCustomerAlerts(GetCustomerAlertsRequest) returns (GetCustomerAlertsResponse);
+}
+
+// Request to check a transaction for fraud
+message CheckTransactionRequest {
+    string customer_id = 1;
+    string account_id = 2;
+    string transaction_type = 3;
+    string amount = 4;
+}
+
+// Response for fraud check
+message CheckTransactionResponse {
+    bool is_fraudulent = 1;
+    string reason = 2;
+    repeated FraudRule triggered_rules = 3;
+    com.pm.grpc.common.ServiceResponse service_response = 4;
+}
+
+// Fraud rule information
+message FraudRule {
+    string rule_name = 1;
+    string description = 2;
+    string threshold = 3;
+    string current_value = 4;
+}
+
+// Request to get customer alerts
+message GetCustomerAlertsRequest {
+    string customer_id = 1;
+    string status = 2; // Optional: filter by status
+}
+
+// Response with customer alerts
+message GetCustomerAlertsResponse {
+    repeated FraudAlert alerts = 1;
+    com.pm.grpc.common.ServiceResponse service_response = 2;
+}
+
+// Fraud alert information
+message FraudAlert {
+    string alert_id = 1;
+    string customer_id = 2;
+    string account_id = 3;
+    string fraud_type = 4;
+    string description = 5;
+    string status = 6;
+    string detected_at = 7;
+}

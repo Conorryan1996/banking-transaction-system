@@ -6,6 +6,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TransactionRequestDTO {
@@ -25,6 +26,12 @@ public class TransactionRequestDTO {
 
     private String referenceNumber;
 
+    // For transfer transactions
+    private UUID targetAccountId;
+
+    // For scheduled transactions
+    private LocalDateTime scheduledDate;
+
     // Getters and setters
     public UUID getAccountId() { return accountId; }
     public void setAccountId(UUID accountId) { this.accountId = accountId; }
@@ -40,4 +47,10 @@ public class TransactionRequestDTO {
 
     public String getReferenceNumber() { return referenceNumber; }
     public void setReferenceNumber(String referenceNumber) { this.referenceNumber = referenceNumber; }
+
+    public UUID getTargetAccountId() { return targetAccountId; }
+    public void setTargetAccountId(UUID targetAccountId) { this.targetAccountId = targetAccountId; }
+
+    public LocalDateTime getScheduledDate() { return scheduledDate; }
+    public void setScheduledDate(LocalDateTime scheduledDate) { this.scheduledDate = scheduledDate; }
 }

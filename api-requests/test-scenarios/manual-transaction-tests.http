@@ -1,0 +1,142 @@
+### Banking Transaction System - Manual Test Steps
+### Run these requests in order, copying IDs from responses
+
+### Step 1: Create a Test Customer
+POST http://localhost:5001/customers
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "testuser@example.com",
+  "phone": "+1234567890",
+  "dateOfBirth": "1990-01-15",
+  "customerType": "INDIVIDUAL"
+}
+
+### COPY THE CUSTOMER ID FROM THE RESPONSE ABOVE AND USE IT IN STEP 2
+
+###
+
+### Step 2: Create an Account (Replace YOUR_CUSTOMER_ID with the ID from Step 1)
+POST http://localhost:5000/accounts
+Content-Type: application/json
+
+{
+  "customerId": "YOUR_CUSTOMER_ID",
+  "accountType": "CHECKING",
+  "initialDeposit": 1000.00
+}
+
+### COPY THE ACCOUNT ID FROM THE RESPONSE ABOVE AND USE IT IN THE FOLLOWING STEPS
+
+###
+
+### Step 3: Check Balance (Replace YOUR_ACCOUNT_ID)
+GET http://localhost:5002/transactions/account/YOUR_ACCOUNT_ID/balance
+
+###
+
+### Step 4: Make a Deposit (Replace YOUR_ACCOUNT_ID)
+POST http://localhost:5002/transactions
+Content-Type: application/json
+
+{
+  "accountId": "YOUR_ACCOUNT_ID",
+  "transactionType": "DEPOSIT",
+  "amount": 250.50,
+  "description": "ATM Deposit"
+}
+
+###
+
+### Step 5: Make a Withdrawal (Replace YOUR_ACCOUNT_ID)
+POST http://localhost:5002/transactions
+Content-Type: application/json
+
+{
+  "accountId": "YOUR_ACCOUNT_ID",
+  "transactionType": "WITHDRAWAL",
+  "amount": 100.00,
+  "description": "ATM Withdrawal"
+}
+
+###
+
+### Step 6: Check Updated Balance (Replace YOUR_ACCOUNT_ID)
+GET http://localhost:5002/transactions/account/YOUR_ACCOUNT_ID/balance
+
+###
+
+### Step 7: Get Transaction History (Replace YOUR_ACCOUNT_ID)
+GET http://localhost:5002/transactions/account/YOUR_ACCOUNT_ID?limit=10
+
+###
+
+### Step 8: Test Insufficient Funds (Replace YOUR_ACCOUNT_ID)
+POST http://localhost:5002/transactions
+Content-Type: application/json
+
+{
+  "accountId": "YOUR_ACCOUNT_ID",
+  "transactionType": "WITHDRAWAL",
+  "amount": 10000.00,
+  "description": "This should fail - insufficient funds"
+}
+
+###
+
+### ============================================
+### ALTERNATIVELY: Use Existing Test Data
+### ============================================
+
+### Option A: Use Pre-loaded Test Account (ID: 11111111-1111-1111-1111-111111111111)
+### This account already exists in the system with customer ID: 22222222-2222-2222-2222-222222222222
+
+### Check Balance of Test Account
+GET http://localhost:5002/transactions/account/11111111-1111-1111-1111-111111111111/balance
+
+###
+
+### Deposit to Test Account
+POST http://localhost:5002/transactions
+Content-Type: application/json
+
+{
+  "accountId": "11111111-1111-1111-1111-111111111111",
+  "transactionType": "DEPOSIT",
+  "amount": 500.00,
+  "description": "Test Deposit"
+}
+
+###
+
+### Withdraw from Test Account
+POST http://localhost:5002/transactions
+Content-Type: application/json
+
+{
+  "accountId": "11111111-1111-1111-1111-111111111111",
+  "transactionType": "WITHDRAWAL",
+  "amount": 200.00,
+  "description": "Test Withdrawal"
+}
+
+###
+
+### Transfer from Test Account
+POST http://localhost:5002/transactions
+Content-Type: application/json
+
+{
+  "accountId": "11111111-1111-1111-1111-111111111111",
+  "transactionType": "TRANSFER",
+  "amount": 150.00,
+  "description": "Transfer to another account",
+  "referenceNumber": "TRF-TEST-001"
+}
+
+###
+
+### Get Transaction History for Test Account
+GET http://localhost:5002/transactions/account/11111111-1111-1111-1111-111111111111?limit=10

@@ -15,16 +15,25 @@ WORKDIR /app/customer-service
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
 # Install wget for health checks
-RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache wget
+
+# Create a non-root user
+RUN addgroup -g 1000 appuser && adduser -u 1000 -G appuser -s /bin/sh -D appuser
 
 # Copy the JAR from builder stage
 COPY --from=builder /app/customer-service/target/customer-service-0.0.1-SNAPSHOT.jar app.jar
 
+# Change ownership
+RUN chown -R appuser:appuser app.jar
+
+# Switch to non-root user
+USER appuser
+
 EXPOSE 5001 9001
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

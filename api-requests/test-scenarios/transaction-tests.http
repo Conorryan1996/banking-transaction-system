@@ -1,0 +1,317 @@
+### Banking Transaction System - Test Scenarios
+### Author: Test Suite
+### Description: Comprehensive test scenarios for deposits, withdrawals, and transfers
+
+### Environment Variables
+@base_url = http://localhost:5002
+@account_service_url = http://localhost:5000
+@customer_service_url = http://localhost:5001
+
+### Test Scenario 1: Create Test Customer
+# First, create a customer to test with
+POST {{customer_service_url}}/customers
+Content-Type: application/json
+
+{
+  "firstName": "Johnny",
+  "lastName": "Doe",
+  "email": "john.doe123@test.com",
+  "phone": "+1234567890",
+  "dateOfBirth": "1990-01-15",
+  "customerType": "INDIVIDUAL"
+}
+
+> {%
+  client.global.set("customerId", response.body.id);
+  client.test("Customer created successfully", function() {
+    client.assert(response.status === 201, "Response status is not 201");
+    client.assert(response.body.id !== null, "Customer ID is null");
+  });
+%}
+
+###
+
+### Test Scenario 2: Create Test Account
+# Create a checking account with initial deposit
+POST {{account_service_url}}/accounts
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "accountType": "CHECKING",
+  "initialDeposit": 1000.00
+}
+
+> {%
+  client.global.set("accountId", response.body.id);
+  client.global.set("accountNumber", response.body.accountNumber);
+  client.test("Account created successfully", function() {
+    client.assert(response.status === 201, "Response status is not 201");
+    client.assert(response.body.balance === "1000.00", "Initial balance is not 1000.00");
+  });
+%}
+
+###
+
+### Test Scenario 3: Get Current Balance
+# Verify initial balance
+GET {{base_url}}/transactions/account/{{accountId}}/balance
+
+> {%
+  client.test("Initial balance check", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+    client.assert(response.body.balance === "1000.00", "Balance is not 1000.00");
+  });
+%}
+
+###
+
+### Test Scenario 4: Deposit Test - Small Amount
+# Deposit $250.50
+POST {{base_url}}/transactions
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "transactionType": "DEPOSIT",
+  "amount": 250.50,
+  "description": "ATM Deposit - Test Scenario 4"
+}
+
+> {%
+  client.global.set("depositTransactionId", response.body.id);
+  client.test("Small deposit successful", function() {
+    client.assert(response.status === 201, "Response status is not 201");
+    client.assert(response.body.status === "COMPLETED", "Transaction status is not COMPLETED");
+    client.assert(response.body.previousBalance === "1000.00", "Previous balance incorrect");
+    client.assert(response.body.newBalance === "1250.50", "New balance should be 1250.50");
+  });
+%}
+
+###
+
+### Test Scenario 5: Verify Balance After Deposit
+GET {{base_url}}/transactions/account/{{accountId}}/balance
+
+> {%
+  client.test("Balance after deposit", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+    client.assert(response.body.balance === "1250.50", "Balance should be 1250.50");
+  });
+%}
+
+###
+
+### Test Scenario 6: Withdrawal Test - Normal Amount
+# Withdraw $100
+POST {{base_url}}/transactions
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "transactionType": "WITHDRAWAL",
+  "amount": 100.00,
+  "description": "ATM Withdrawal - Test Scenario 6"
+}
+
+> {%
+  client.global.set("withdrawalTransactionId", response.body.id);
+  client.test("Normal withdrawal successful", function() {
+    client.assert(response.status === 201, "Response status is not 201");
+    client.assert(response.body.status === "COMPLETED", "Transaction status is not COMPLETED");
+    client.assert(response.body.previousBalance === "1250.50", "Previous balance incorrect");
+    client.assert(response.body.newBalance === "1150.50", "New balance should be 1150.50");
+  });
+%}
+
+###
+
+### Test Scenario 7: Large Deposit Test
+# Deposit $5000
+POST {{base_url}}/transactions
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "transactionType": "DEPOSIT",
+  "amount": 5000.00,
+  "description": "Wire Transfer Deposit - Test Scenario 7",
+  "referenceNumber": "REF-2024-001"
+}
+
+> {%
+  client.test("Large deposit successful", function() {
+    client.assert(response.status === 201, "Response status is not 201");
+    client.assert(response.body.newBalance === "6150.50", "New balance should be 6150.50");
+    client.assert(response.body.referenceNumber === "REF-2024-001", "Reference number not saved");
+  });
+%}
+
+###
+
+### Test Scenario 8: Withdrawal Test - Insufficient Funds
+# Try to withdraw more than available balance
+POST {{base_url}}/transactions
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "transactionType": "WITHDRAWAL",
+  "amount": 10000.00,
+  "description": "Withdrawal exceeding balance - Should fail"
+}
+
+> {%
+  client.test("Insufficient funds withdrawal rejected", function() {
+    client.assert(response.status === 400, "Response status should be 400");
+    client.assert(response.body.error !== null, "Error message should be present");
+  });
+%}
+
+###
+
+### Test Scenario 9: Verify Balance Unchanged After Failed Withdrawal
+GET {{base_url}}/transactions/account/{{accountId}}/balance
+
+> {%
+  client.test("Balance unchanged after failed withdrawal", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+    client.assert(response.body.balance === "6150.50", "Balance should remain 6150.50");
+  });
+%}
+
+###
+
+### Test Scenario 10: Transfer Test (Withdrawal Part)
+# Transfer $500 to another account
+POST {{base_url}}/transactions
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "transactionType": "TRANSFER",
+  "amount": 500.00,
+  "description": "Transfer to savings account",
+  "referenceNumber": "TRF-2024-001"
+}
+
+> {%
+  client.test("Transfer withdrawal successful", function() {
+    client.assert(response.status === 201, "Response status is not 201");
+    client.assert(response.body.newBalance === "5650.50", "New balance should be 5650.50");
+  });
+%}
+
+###
+
+### Test Scenario 11: Get Transaction History
+# Retrieve all transactions for the account
+GET {{base_url}}/transactions/account/{{accountId}}?limit=10
+
+> {%
+  client.test("Transaction history retrieved", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+    client.assert(response.body.transactions.length > 0, "Should have transactions");
+    client.assert(response.body.totalCount >= 4, "Should have at least 4 transactions");
+  });
+%}
+
+###
+
+### Test Scenario 12: Get Specific Transaction Details
+# Get details of the deposit transaction
+GET {{base_url}}/transactions/{{depositTransactionId}}
+
+> {%
+  client.test("Transaction details retrieved", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+    client.assert(response.body.transactionType === "DEPOSIT", "Transaction type should be DEPOSIT");
+    client.assert(response.body.amount === "250.50", "Amount should be 250.50");
+  });
+%}
+
+###
+
+### Test Scenario 13: Decimal Precision Test
+# Test with precise decimal amounts
+POST {{base_url}}/transactions
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "transactionType": "DEPOSIT",
+  "amount": 123.456,
+  "description": "Decimal precision test"
+}
+
+> {%
+  client.test("Decimal precision handled correctly", function() {
+    client.assert(response.status === 201, "Response status is not 201");
+    // Note: Amount might be rounded to 2 decimal places
+    client.assert(response.body.amount === "123.46" || response.body.amount === "123.456", 
+                  "Amount should be properly formatted");
+  });
+%}
+
+###
+
+### Test Scenario 14: Zero Amount Transaction (Should Fail)
+POST {{base_url}}/transactions
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "transactionType": "DEPOSIT",
+  "amount": 0,
+  "description": "Zero amount test"
+}
+
+> {%
+  client.test("Zero amount transaction rejected", function() {
+    client.assert(response.status === 400, "Response status should be 400");
+  });
+%}
+
+###
+
+### Test Scenario 15: Negative Amount Transaction (Should Fail)
+POST {{base_url}}/transactions
+Content-Type: application/json
+
+{
+  "accountId": "{{accountId}}",
+  "transactionType": "WITHDRAWAL",
+  "amount": -50,
+  "description": "Negative amount test"
+}
+
+> {%
+  client.test("Negative amount transaction rejected", function() {
+    client.assert(response.status === 400, "Response status should be 400");
+  });
+%}
+
+###
+
+### Test Scenario 16: Final Balance Check
+GET {{base_url}}/transactions/account/{{accountId}}/balance
+
+> {%
+  client.test("Final balance verification", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+    console.log("Final balance:", response.body.balance);
+  });
+%}
+
+###
+
+### Test Scenario 17: Get Transactions by Customer
+# Get all transactions for the customer across all accounts
+GET {{customer_service_url}}/customers/{{customerId}}/transactions?limit=20
+
+> {%
+  client.test("Customer transactions retrieved", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+    client.assert(response.body.transactions !== undefined, "Should have transactions array");
+  });
+%}

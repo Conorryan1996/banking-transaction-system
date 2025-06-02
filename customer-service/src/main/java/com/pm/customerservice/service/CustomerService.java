@@ -9,6 +9,7 @@ import com.pm.customerservice.model.Customer;
 import com.pm.customerservice.model.CustomerStatus;
 import com.pm.customerservice.repository.CustomerRepository;
 import com.pm.customerservice.grpc.AccountServiceClient;
+import com.pm.customerservice.grpc.AuthServiceClient;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 @Service
 public class CustomerService {
@@ -25,10 +28,14 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final AccountServiceClient accountServiceClient;
+    private final AuthServiceClient authServiceClient;
 
-    public CustomerService(CustomerRepository customerRepository, AccountServiceClient accountServiceClient) {
+    public CustomerService(CustomerRepository customerRepository, 
+                          AccountServiceClient accountServiceClient,
+                          AuthServiceClient authServiceClient) {
         this.customerRepository = customerRepository;
         this.accountServiceClient = accountServiceClient;
+        this.authServiceClient = authServiceClient;
     }
 
     public List<CustomerResponseDTO> getAllCustomers() {
@@ -70,6 +77,32 @@ public class CustomerService {
 
         Customer savedCustomer = customerRepository.save(customer);
         logger.info("Created customer: {} {}", savedCustomer.getFirstName(), savedCustomer.getLastName());
+
+        // Generate username and temporary password
+        String username = generateUsername(savedCustomer.getFirstName(), savedCustomer.getLastName());
+        String temporaryPassword = generateTemporaryPassword();
+        
+        // Create auth credentials
+        try {
+            logger.info("Creating auth credentials for customer: {}", savedCustomer.getId());
+            boolean authCreated = authServiceClient.registerUser(
+                    username, 
+                    temporaryPassword, 
+                    savedCustomer.getEmail(), 
+                    savedCustomer.getId()
+            );
+            
+            if (authCreated) {
+                logger.info("Successfully created auth credentials for customer: {}", savedCustomer.getId());
+                // In a real system, you would send the temporary password via email
+                logger.info("TEMPORARY CREDENTIALS - Username: {}, Password: {} (This should be sent via secure email)", 
+                          username, temporaryPassword);
+            } else {
+                logger.error("Failed to create auth credentials for customer: {}", savedCustomer.getId());
+            }
+        } catch (Exception e) {
+            logger.error("Error creating auth credentials for customer {}: {}", savedCustomer.getId(), e.getMessage());
+        }
 
         // Automatically create default checking account
         try {
@@ -128,5 +161,21 @@ public class CustomerService {
 
     public boolean customerExists(UUID customerId) {
         return customerRepository.existsById(customerId);
+    }
+    
+    private String generateUsername(String firstName, String lastName) {
+        // Create username from first letter of first name + last name + random number
+        String baseUsername = (firstName.substring(0, 1) + lastName).toLowerCase()
+                .replaceAll("[^a-z0-9]", "");
+        int randomNum = new SecureRandom().nextInt(1000);
+        return baseUsername + randomNum;
+    }
+    
+    private String generateTemporaryPassword() {
+        // Generate a secure temporary password
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[12];
+        random.nextBytes(bytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
 }

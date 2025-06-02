@@ -16,16 +16,23 @@ WORKDIR /app/account-service
 RUN mvn clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
 # Install wget for health checks
-RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache wget
+
+# Create a non-root user
+RUN addgroup -g 1000 spring && adduser -u 1000 -G spring -s /bin/sh -D spring
 
 # Copy the JAR from builder stage
 COPY --from=builder /app/account-service/target/account-service-0.0.1-SNAPSHOT.jar app.jar
+RUN chown spring:spring app.jar
+
+USER spring
 
 EXPOSE 5000 9000
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run with JAVA_OPTS from environment
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

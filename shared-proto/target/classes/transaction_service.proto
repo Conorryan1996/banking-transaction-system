@@ -47,7 +47,7 @@ message ProcessTransactionResponse {
   string previous_balance = 8;
   string new_balance = 9;
   string processed_date = 10;
-  common.ServiceResponse service_response = 11;
+  com.pm.grpc.common.ServiceResponse service_response = 11;
 }
 
 message GetTransactionRequest {
@@ -66,7 +66,7 @@ message GetTransactionResponse {
   string previous_balance = 9;
   string new_balance = 10;
   string processed_date = 11;
-  common.ServiceResponse service_response = 12;
+  com.pm.grpc.common.ServiceResponse service_response = 12;
 }
 
 message GetTransactionsByAccountRequest {
@@ -78,7 +78,7 @@ message GetTransactionsByAccountRequest {
 message GetTransactionsByAccountResponse {
   repeated GetTransactionResponse transactions = 1;
   int32 total_count = 2;
-  common.ServiceResponse service_response = 3;
+  com.pm.grpc.common.ServiceResponse service_response = 3;
 }
 
 message GetTransactionsByCustomerRequest {
@@ -90,7 +90,7 @@ message GetTransactionsByCustomerRequest {
 message GetTransactionsByCustomerResponse {
   repeated GetTransactionResponse transactions = 1;
   int32 total_count = 2;
-  common.ServiceResponse service_response = 3;
+  com.pm.grpc.common.ServiceResponse service_response = 3;
 }
 
 message GetAccountBalanceRequest {
@@ -101,5 +101,5 @@ message GetAccountBalanceResponse {
   string account_id = 1;
   string current_balance = 2;
   string last_updated = 3;
-  common.ServiceResponse service_response = 4;
+  com.pm.grpc.common.ServiceResponse service_response = 4;
 }

@@ -1,0 +1,60 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDEs
+.idea/
+*.iml
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+LICENSE
+
+# Node modules (for frontend)
+node_modules/
+dist/
+build/
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+test-results/
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
+# Build artifacts we don't need
+*/target/
+*/build/
+*/dist/
+*/node_modules/

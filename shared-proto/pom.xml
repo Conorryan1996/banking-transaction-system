@@ -14,9 +14,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- FIXED: Use versions compatible with grpc-spring-boot-starter 3.1.0.RELEASE -->
-        <grpc.version>1.58.0</grpc.version>
-        <protobuf.version>3.24.0</protobuf.version>
+        <!-- Updated to match grpc-spring-boot-starter 3.0.0.RELEASE -->
+        <grpc.version>1.60.1</grpc.version>
+        <protobuf.version>3.25.1</protobuf.version>
     </properties>
 
     <dependencies>

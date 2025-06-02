@@ -6,17 +6,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="transaction-service" />
+        <module name="fraud-service" />
         <module name="shared-proto" />
-        <module name="account-service" />
+        <module name="auth-service" />
         <module name="customer-service" />
+        <module name="api-gateway" />
+        <module name="transaction-service" />
+        <module name="account-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="account-service" options="-parameters" />
+      <module name="api-gateway" options="-parameters" />
       <module name="customer-service" options="-parameters" />
+      <module name="fraud-service" options="-parameters" />
       <module name="transaction-service" options="-parameters" />
     </option>
   </component>

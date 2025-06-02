@@ -21,6 +21,10 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
 
   # PostgreSQL for Customer Service
   postgres-customers:
@@ -42,6 +46,10 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
 
   # PostgreSQL for Transaction Service
   postgres-transactions:
@@ -63,6 +71,10 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
 
   # Account Service
   account-service:
@@ -82,6 +94,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=password
       - GRPC_SERVER_PORT=9000
+      - JAVA_OPTS=-Xms256m -Xmx512m -XX:MaxMetaspaceSize=128m
     networks:
       - banking-network
     healthcheck:
@@ -90,6 +103,10 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 640M
 
   # Customer Service
   customer-service:
@@ -105,6 +122,8 @@ services:
         condition: service_healthy
       account-service:
         condition: service_healthy
+      auth-service:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-customers:5432/customers_db
@@ -113,6 +132,9 @@ services:
       - GRPC_SERVER_PORT=9001
       - GRPC_CLIENT_ACCOUNT_SERVICE_ADDRESS=static://account-service:9000
       - GRPC_CLIENT_ACCOUNT_SERVICE_NEGOTIATION_TYPE=plaintext
+      - GRPC_CLIENT_AUTH_SERVICE_ADDRESS=static://auth-service:9004
+      - GRPC_CLIENT_AUTH_SERVICE_NEGOTIATION_TYPE=plaintext
+      - JAVA_OPTS=-Xms256m -Xmx512m -XX:MaxMetaspaceSize=128m
     networks:
       - banking-network
     healthcheck:
@@ -121,6 +143,10 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 640M
 
   # Transaction Service
   transaction-service:
@@ -136,6 +162,10 @@ services:
         condition: service_healthy
       account-service:
         condition: service_healthy
+      fraud-service:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-transactions:5432/transactions_db
@@ -144,6 +174,7 @@ services:
       - GRPC_SERVER_PORT=9002
       - GRPC_CLIENT_ACCOUNT_SERVICE_ADDRESS=static://account-service:9000
       - GRPC_CLIENT_ACCOUNT_SERVICE_NEGOTIATION_TYPE=plaintext
+      - JAVA_OPTS=-Xms256m -Xmx512m -XX:MaxMetaspaceSize=128m
     networks:
       - banking-network
     healthcheck:
@@ -152,11 +183,248 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 640M
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"  # Gateway port
+    depends_on:
+      account-service:
+        condition: service_healthy
+      customer-service:
+        condition: service_healthy
+      transaction-service:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JAVA_OPTS=-Xms256m -Xmx512m -XX:MaxMetaspaceSize=128m
+    networks:
+      - banking-network
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 640M
+
+  # Kafka
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_HEAP_OPTS: "-Xms256m -Xmx256m"
+    ports:
+      - "2181:2181"
+    networks:
+      - banking-network
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "2181" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_HEAP_OPTS: "-Xms512m -Xmx512m"
+    networks:
+      - banking-network
+    healthcheck:
+      test: [ "CMD", "kafka-topics", "--bootstrap-server", "kafka:29092", "--list" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+
+  # PostgreSQL for Fraud Service
+  postgres-fraud:
+    image: postgres:15-alpine
+    container_name: postgres-fraud
+    environment:
+      POSTGRES_DB: fraud_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_fraud_data:/var/lib/postgresql/data
+    networks:
+      - banking-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d fraud_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  # PostgreSQL for Auth Service
+  postgres-auth:
+    image: postgres:15-alpine
+    container_name: postgres-auth
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data
+    networks:
+      - banking-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d auth_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  # Auth Service
+  auth-service:
+    build:
+      context: .
+      dockerfile: auth-service/Dockerfile
+    container_name: auth-service
+    ports:
+      - "5004:5004"  # HTTP API
+      - "9004:9004"  # gRPC
+    depends_on:
+      postgres-auth:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-auth:5432/auth_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - GRPC_SERVER_PORT=9004
+      - JWT_SECRET=ThisIsAVerySecureSecretKeyForJWTTokenGenerationPleaseChangeInProduction
+      - JAVA_OPTS=-Xms256m -Xmx512m -XX:MaxMetaspaceSize=128m
+    networks:
+      - banking-network
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5004" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 640M
+
+  # Fraud Service
+  fraud-service:
+    build:
+      context: .
+      dockerfile: fraud-service/Dockerfile
+    container_name: fraud-service
+    ports:
+      - "5003:5003"  # HTTP API
+      - "9003:9003"  # gRPC
+    depends_on:
+      postgres-fraud:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-fraud:5432/fraud_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - GRPC_SERVER_PORT=9003
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - DAILY_WITHDRAWAL_AMOUNT_LIMIT=1000
+      - DAILY_WITHDRAWAL_COUNT_LIMIT=5
+      - JAVA_OPTS=-Xms256m -Xmx512m -XX:MaxMetaspaceSize=128m
+    networks:
+      - banking-network
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5003/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 640M
+
+  # Frontend
+  banking-frontend:
+    build:
+      context: ./banking-frontend
+      dockerfile: Dockerfile
+    container_name: banking-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080/api
+    networks:
+      - banking-network
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 128M
 
 volumes:
   postgres_accounts_data:
   postgres_customers_data:
   postgres_transactions_data:
+  postgres_fraud_data:
+  postgres_auth_data:
 
 networks:
   banking-network:

@@ -1,0 +1,26 @@
+{
+  "accounts": [
+    {
+      "createdDate": "2025-05-26T15:59:32.802562",
+      "balance": "100.00",
+      "accountType": "CHECKING",
+      "customerId": "53549e3f-24ba-4b9e-8730-51d9bc10ece3",
+      "id": "1ad68fbc-b661-4ab5-8eb3-ef80d2a39a6b",
+      "accountNumber": "ACC1748275172264",
+      "status": "ACTIVE"
+    }
+  ],
+  "message": "Customer created successfully with default account",
+  "customer": {
+    "id": "53549e3f-24ba-4b9e-8730-51d9bc10ece3",
+    "firstName": "Johnny",
+    "lastName": "Doe",
+    "fullName": "Johnny Doe",
+    "email": "john.doe123@test.com",
+    "phone": "+1234567890",
+    "dateOfBirth": "1990-01-15",
+    "status": "PENDING_VERIFICATION",
+    "customerType": "INDIVIDUAL",
+    "createdDate": "2025-05-26T15:59:28.578870055"
+  }
+}

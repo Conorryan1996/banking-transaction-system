@@ -20,6 +20,9 @@ public class Transaction {
     @NotNull
     private UUID customerId;
 
+    // For transfer transactions
+    private UUID targetAccountId;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
@@ -45,6 +48,8 @@ public class Transaction {
     @Column(precision = 15, scale = 2)
     private BigDecimal newBalance;
 
+    private LocalDateTime scheduledDate;
+
     @NotNull
     private LocalDateTime processedDate;
 
@@ -67,6 +72,9 @@ public class Transaction {
 
     public UUID getCustomerId() { return customerId; }
     public void setCustomerId(UUID customerId) { this.customerId = customerId; }
+
+    public UUID getTargetAccountId() { return targetAccountId; }
+    public void setTargetAccountId(UUID targetAccountId) { this.targetAccountId = targetAccountId; }
 
     public TransactionType getTransactionType() { return transactionType; }
     public void setTransactionType(TransactionType transactionType) { this.transactionType = transactionType; }
@@ -97,4 +105,7 @@ public class Transaction {
 
     public LocalDateTime getLastModifiedDate() { return lastModifiedDate; }
     public void setLastModifiedDate(LocalDateTime lastModifiedDate) { this.lastModifiedDate = lastModifiedDate; }
+
+    public LocalDateTime getScheduledDate() { return scheduledDate; }
+    public void setScheduledDate(LocalDateTime scheduledDate) { this.scheduledDate = scheduledDate; }
 }

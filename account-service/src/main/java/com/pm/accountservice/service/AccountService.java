@@ -101,4 +101,16 @@ public class AccountService {
 
         return accountNumber;
     }
+
+    // NEW: Method to get account by account number
+    public AccountResponseDTO getAccountByNumber(String accountNumber) {
+        Account account = accountRepository.findByAccountNumber(accountNumber)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found with number: " + accountNumber));
+        return AccountMapper.toDTO(account);
+    }
+
+    // NEW: Method to check if account exists by account number
+    public boolean accountExists(String accountNumber) {
+        return accountRepository.existsByAccountNumber(accountNumber);
+    }
 }

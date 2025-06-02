@@ -1,0 +1,16 @@
+com/pm/fraudservice/service/FraudDetectionService.class
+com/pm/fraudservice/model/FraudAlert$FraudAlertBuilder.class
+com/pm/fraudservice/model/FraudAlert.class
+com/pm/fraudservice/model/TransactionHistory.class
+com/pm/fraudservice/kafka/TransactionEvent.class
+com/pm/fraudservice/model/TransactionHistory$TransactionHistoryBuilder.class
+com/pm/fraudservice/kafka/TransactionEvent$TransactionEventBuilder.class
+com/pm/fraudservice/kafka/KafkaConsumerConfig.class
+com/pm/fraudservice/FraudServiceApplication.class
+com/pm/fraudservice/controller/FraudController.class
+com/pm/fraudservice/grpc/FraudGrpcService.class
+com/pm/fraudservice/model/FraudType.class
+com/pm/fraudservice/repository/FraudAlertRepository.class
+com/pm/fraudservice/model/AlertStatus.class
+com/pm/fraudservice/repository/TransactionHistoryRepository.class
+com/pm/fraudservice/kafka/TransactionEventConsumer.class

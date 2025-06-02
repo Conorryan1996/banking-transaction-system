@@ -1,0 +1,27 @@
+### Test Transfer Flow with Account Numbers
+
+### Step 1: Get accounts to find account numbers
+GET http://localhost:8080/api/accounts
+Accept: application/json
+
+### Step 2: Check if account exists by account number (replace ACC1234567890 with actual account number)
+GET http://localhost:8080/api/accounts/number/ACC1234567890/exists
+Accept: application/json
+
+### Step 3: Get account details by account number
+GET http://localhost:8080/api/accounts/number/ACC1234567890
+Accept: application/json
+
+### Step 4: Process a transfer using account IDs (from frontend perspective)
+# The frontend still uses account IDs for the actual transfer
+# It just looks up the account ID using the account number first
+POST http://localhost:8080/api/transactions
+Content-Type: application/json
+
+{
+  "accountId": "source-account-uuid-here",
+  "targetAccountId": "target-account-uuid-here",
+  "transactionType": "TRANSFER",
+  "amount": 100.00,
+  "description": "Transfer using account numbers"
+}

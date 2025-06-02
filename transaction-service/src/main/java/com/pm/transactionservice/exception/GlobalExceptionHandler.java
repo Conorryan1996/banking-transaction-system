@@ -35,6 +35,16 @@ public class GlobalExceptionHandler {
         Map<String, String> error = Map.of("message", ex.getMessage());
         return ResponseEntity.badRequest().body(error);
     }
+    
+    @ExceptionHandler(FraudDetectedException.class)
+    public ResponseEntity<Map<String, String>> handleFraudDetectedException(FraudDetectedException ex) {
+        log.warn("Fraud detected: " + ex.getMessage());
+        Map<String, String> error = Map.of(
+            "message", ex.getMessage(),
+            "error", "FRAUD_DETECTED"
+        );
+        return ResponseEntity.status(403).body(error); // 403 Forbidden
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {

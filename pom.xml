@@ -17,8 +17,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <spring-boot.version>3.4.5</spring-boot.version>
-        <grpc.version>1.69.0</grpc.version>
-        <protobuf.version>4.29.1</protobuf.version>
+        <grpc.version>1.60.1</grpc.version>
+        <protobuf.version>3.25.1</protobuf.version>
     </properties>
 
     <modules>
@@ -26,6 +26,9 @@
         <module>account-service</module>
         <module>customer-service</module>
         <module>transaction-service</module>
+        <module>api-gateway</module>
+        <module>fraud-service</module>
+        <module>auth-service</module>
     </modules>
 
     <dependencyManagement>
